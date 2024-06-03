@@ -1,7 +1,6 @@
 <template>
   <v-app>
     <AppHeader />
-
     <RouterView />
     <AppFooter />
   </v-app>
@@ -25,7 +24,9 @@ import AppFooter from './components/AppFooter.vue';
   padding: 0 20px;
 
 }
-
+.v-card-title {
+  /* text-transform: uppercase !important; */
+}
 .page {
   margin-top: 20px;
 }

@@ -8,8 +8,17 @@
         color="dark"
         title="Order Book"
       )
+        v-row
+          v-col(
+            cols="6"
+          )
+            OrderBookTable(:bootType="'bids'")
+          v-col(
+            cols="6"
+          )
+            OrderBookTable(:bootType="'asks'")
 </template>
 
 <script setup>
-  // import HelloWorld from '@/components/HelloWorld.vue';
+import OrderBookTable from '../components/OrderBookTable.vue';
 </script>

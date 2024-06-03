@@ -33,7 +33,6 @@ const items = [
         i {
             font-size: 30px;
         }
-
         .h-btn-title {
             display: none;
 

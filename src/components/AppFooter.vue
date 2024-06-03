@@ -24,9 +24,9 @@
 const items = [
 
   {
-    title: 'Vuetify GitHub',
+    title: 'Source Code',
     icon: `mdi-github`,
-    href: 'https://github.com/vuetifyjs/vuetify',
+    href: 'https://github.com/ptgun/koshelek-orderbook',
   },
 ]
 </script>
