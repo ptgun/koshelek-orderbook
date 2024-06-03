@@ -13,7 +13,6 @@
           .selectedPair
             span.gradient-text {{pair}}
 
-
         v-row(v-if="store.getters.selectedDepth")
           v-col(
             cols="6"
@@ -24,6 +23,12 @@
           )
             OrderBookTable(:bootType="'asks'" :items="store.getters.selectedDepth.asks")
 
+        v-row.show-limit-row
+          .display-limit
+            span Show 
+            v-btn( density="compact" v-for="limit in store.state.limits" @click="showPerPage(limit)") {{ limit }}
+            span  elements
+
 
 </template>
 
@@ -33,7 +38,9 @@ import OrderBookTable from '../components/OrderBookTable.vue';
 const store = useStore();
 const pair = store.state.selectedPair;
 
-
+function showPerPage(amount) {
+  store.dispatch("changeLimitAction", amount)
+}
 </script>
 
 
@@ -45,6 +52,19 @@ const pair = store.state.selectedPair;
   position: absolute;
   top: 5px;
   right: 15px;
+}
 
+.show-limit-row {
+  position: relative;
+  height: 50px;
+  .display-limit {
+    position: absolute;
+    right: 30px;
+    top: 0px;
+    .v-btn {
+      margin: 0 3px;
+      border: 1px solid;
+    }
+  }
 }
 </style>

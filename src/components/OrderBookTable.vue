@@ -5,7 +5,7 @@
     </div>
 
 
-    <v-table height="calc(90vh - 220px)" item-class="depth-item" class="depth-table">
+    <v-table height="calc(90vh - 240px)" item-class="depth-item" class="depth-table">
         <thead class="bookHeader" >
 
             <tr class="d-flex justify-space-between" :class="bootType">

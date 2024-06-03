@@ -15,6 +15,11 @@ export default createStore({
                 "BNBBTC",
                 "ETHBTC"
             ],
+            limits: [
+                100,
+                500,
+                1000,
+            ],
             depth: {
 
             },
@@ -26,11 +31,12 @@ export default createStore({
     },
     mutations: {
         changePair(state, newPair) {
-            state.selectedPair = newPair,
-                state.log.push({
-                    time: getFormatedDate(),
-                    action: `User has changed exchange pair to ${newPair}`
-                })
+            state.selectedPair = newPair
+            state.log.push({
+                time: getFormatedDate(),
+                action: `User has changed exchange pair to ${newPair}`
+            })
+
             return fetch(`https://api.binance.com/api/v3/depth?symbol=${newPair}&limit=${state.limit}`)
                 .then(res => res.json())
                 .then(json => {
@@ -45,11 +51,19 @@ export default createStore({
                     json.asks.forEach(pq => {
                         state.depth[newPair].asks[pq[0]] = pq[1];
                     })
-                    // console.log(state.depth);
+
                 })
                 .catch(err => {
                     console.log("ERR: ", err);
                 })
+        },
+        changeLimit(state, newLimit) {
+            state.limit = newLimit
+
+            state.log.push({
+                time: getFormatedDate(),
+                action: `User has changed display limit to ${newLimit}`
+            })
         },
         updateDepthItem(state, newDepth) {
             // console.log({newDepth});
@@ -67,13 +81,21 @@ export default createStore({
         init({ dispatch, state }) {
             dispatch('changePairAction', state.selectedPair)
         },
-        changePairAction({ dispatch, commit, state }, newPair) {
+        async changePairAction({ dispatch, commit, state }, newPair) {
             if (state.pairs.indexOf(newPair) == -1) {
                 alert("unsupported pair")
                 return
             };
-            commit('changePair', newPair);
+            await commit('changePair', newPair);
             dispatch('connect_wss', newPair);
+        },
+        changeLimitAction({ dispatch, commit, state }, newLimit) {
+            if (state.limits.indexOf(newLimit) == -1) {
+                alert("unsupported limit")
+                return
+            };
+            commit('changeLimit', newLimit);
+            dispatch('changePairAction', state.selectedPair);
 
         },
         connect_wss({ commit, state }, newPair) {
@@ -147,7 +169,6 @@ export default createStore({
     },
     getters: {
         selectedDepth(state) {
-            console.log("from gettrs", state.depth);
             return state.depth[state.selectedPair]
         }
     }
