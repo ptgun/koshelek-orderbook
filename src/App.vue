@@ -13,7 +13,8 @@ import AppFooter from './components/AppFooter.vue';
 
 
 <style>
-.html, body {
+.html,
+body {
   min-width: 475px;
 }
 
@@ -24,10 +25,23 @@ import AppFooter from './components/AppFooter.vue';
   padding: 0 20px;
 
 }
-.v-card-title {
-  /* text-transform: uppercase !important; */
-}
+
 .page {
   margin-top: 20px;
+}
+
+.pointer {
+  cursor: pointer;
+}
+
+.gradient-text {
+
+  background: #43A4FE;
+  background: -webkit-linear-gradient(to right, #43A4FE, #FF3F8B);
+  background: linear-gradient(to right, #43A4FE, #FF3F8B);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+
 }
 </style>

@@ -1,9 +1,10 @@
 <template>
-    <div class="bootType" :class="bootType">
-        {{ bootType }}
-    </div>
-<v-table theme="dark">
 
+<div class="bootType" :class="bootType">
+    {{ bootType }}
+</div>
+
+<v-table>
     <thead>
         <tr>
             <th class="text-left">
@@ -20,7 +21,7 @@
     <tbody>
         <tr v-for="item in items" :key="item.name">
             <td>{{ item.price }}</td>
-            <td  v-if="!isMobile">{{ item.quantity }}</td>
+            <td v-if="!isMobile">{{ item.quantity }}</td>
             <td>{{ item.price * item.quantity }}</td>
         </tr>
     </tbody>
@@ -40,14 +41,16 @@ const props = defineProps(['bootType', 'items'])
 .bootType {
     text-transform: uppercase;
     width: 100%;
+
     &.bids {
-        color: rgb(0, 255, 115);
+        color: rgb(98, 255, 169);
         text-align: right;
         font-weight: 500;
 
     }
+
     &.asks {
-        color: rgb(255, 51, 0);
+        color: rgb(255, 106, 69);
         text-align: left;
         font-weight: 500;
     }
