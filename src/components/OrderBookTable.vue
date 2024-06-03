@@ -1,43 +1,102 @@
 <template>
 
-<div class="bootType" :class="bootType">
-    {{ bootType }}
-</div>
+    <div class="bootType" :class="bootType">
+        {{ bootType }}
+    </div>
 
-<v-table>
-    <thead>
-        <tr>
-            <th class="text-left">
-                Price
-            </th>
-            <th class="text-left" v-if="!isMobile">
-                Quantity
-            </th>
-            <th class="text-left">
-                Total
-            </th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr v-for="item in items" :key="item.name">
-            <td>{{ item.price }}</td>
-            <td v-if="!isMobile">{{ item.quantity }}</td>
-            <td>{{ item.price * item.quantity }}</td>
-        </tr>
-    </tbody>
-</v-table>
+
+    <v-table height="calc(90vh - 220px)" item-class="style-td" class="depth-table">
+        <thead class="bookHeader" >
+
+            <tr class="d-flex justify-space-between" :class="bootType">
+                <th class="text-left">
+                    Price
+                </th>
+                <th class="text-right quantity-th-add-style-1" v-if="!isMobile">
+                    Quantity
+                </th>
+                <th class="text-right">
+                    Total
+                </th>
+            </tr>
+
+        </thead>
+        <tbody class="bookBody">
+            <tr v-for="item in items" :key="item.name" class="style-td">
+                <td class="text-left">{{ parseFloat(item[0]).toFixed(decimals[store.state.selectedPair][1]) }}</td>
+                <td class="text-right" v-if="!isMobile">{{ parseFloat(item[1]).toFixed(decimals[store.state.selectedPair][0]) }}</td>
+                <td class="text-right">{{ (item[0] * item[1]).toFixed(decimals[store.state.selectedPair][1]) }}</td>
+
+            </tr>
+        </tbody>
+
+    </v-table>
 
 </template>
 
 
 <script setup>
 import { useWindowWidth } from '@/plugins/windowWidth';
+import { useStore } from 'vuex';
 const { width, isMobile } = useWindowWidth();
-const props = defineProps(['bootType', 'items'])
+const props = defineProps(['bootType', 'items']);
+const store = useStore();
+
+// fixed number for every pair
+const decimals = {
+    "BTCUSDT": [6, 2],
+    "BNBBTC": [4, 6],
+    "ETHBTC": [6, 6],
+
+};
 </script>
 
 
 <style lang="scss" scoped>
+.bookHeader {
+    tr {
+        width: 100%;
+        // padding-top: 10px;
+        padding-bottom: 0 !important;
+        margin-bottom: 0 !important;
+        border-bottom: 1px solid rgb(98, 255, 169);
+        &.bids {
+            border-bottom: 1px solid rgb(98, 255, 169);
+        }
+
+        &.asks {
+            border-bottom: 1px solid rgb(255, 106, 69);
+        }
+
+        th {
+            &.quantity-th-add-style-1 {
+                width: 30%;
+                text-align: left;
+            }
+            margin-top:20px;
+            border: none !important;
+            padding-bottom: -10px !important;
+            margin-bottom: -30px !important;
+        }
+    }
+
+    // align-items: stretch;
+    display: flex;
+    position: absolute;
+    top: 0;
+    width: 100%;
+    background: #212121;
+}
+
+.bookBody {
+    margin-top: 260px !important;
+    tr {
+        td {
+            height: 30px !important;
+        }
+    }
+}
+
 .bootType {
     text-transform: uppercase;
     width: 100%;
@@ -53,6 +112,25 @@ const props = defineProps(['bootType', 'items'])
         color: rgb(255, 106, 69);
         text-align: left;
         font-weight: 500;
+    }
+}
+
+.depth-table {
+    padding-top: 60px;
+    position: relative;
+    width: 100%;
+    overflow: scroll;
+    // tbody {
+    //         max-height: 50vh !important;
+    //         overflow-y: scroll;
+    //     }
+}
+
+.style-td {
+    height: 25px !important;
+    th {
+        height: 25px !important;
+        margin: 0;
     }
 }
 </style>

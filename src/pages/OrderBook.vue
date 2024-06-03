@@ -12,15 +12,18 @@
         v-card-title
           .selectedPair
             span.gradient-text {{pair}}
-        v-row
+
+
+        v-row(v-if="store.getters.selectedDepth")
           v-col(
             cols="6"
           )
-            OrderBookTable(:bootType="'bids'")
+            OrderBookTable(:bootType="'bids'" :items="store.getters.selectedDepth.bids")
           v-col(
             cols="6"
           )
-            OrderBookTable(:bootType="'asks'")
+            OrderBookTable(:bootType="'asks'" :items="store.getters.selectedDepth.asks")
+
 
 </template>
 
@@ -29,6 +32,8 @@ import { useStore } from 'vuex';
 import OrderBookTable from '../components/OrderBookTable.vue';
 const store = useStore();
 const pair = store.state.selectedPair;
+
+
 </script>
 
 
