@@ -53,7 +53,7 @@ const filteredPairs = computed(() => store.state.pairs.filter(
 ))
 
 function selectPair(newPair) {
-  store.commit('changePair', newPair)
+  store.dispatch('changePairAction', newPair)
 }
 </script>
 

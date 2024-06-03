@@ -22,13 +22,13 @@
 
         </thead>
         <tbody class="bookBody">
-            <tr v-for="item in items" :key="item.name" class="depth-item">
-                <div class="depth-view-load" :class="bootType" :style="{width: getDepthViewWidth(item[1])}"></div>
+            <tr v-for="itemKey in Object.keys(items)" :key="itemKey" class="depth-item">
+                <div class="depth-view-load" :class="bootType" :style="{width: getDepthViewWidth(items[itemKey])}"></div>
                 <!-- <div class="text-above"> -->
-                <td class="text-left">{{ parseFloat(item[0]).toFixed(decimals[store.state.selectedPair][1]) }}</td>
-                <td class="text-right" v-if="!isMobile">{{ parseFloat(item[1]).toFixed(decimals[store.state.selectedPair][0]) }}</td>
+                <td class="text-left">{{ parseFloat(itemKey).toFixed(fixed_decimals[store.state.selectedPair][1]) }}</td>
+                <td class="text-right" v-if="!isMobile">{{ parseFloat(items[itemKey]).toFixed(fixed_decimals[store.state.selectedPair][0]) }}</td>
                 <td class="text-right">
-                    <span class="txt-above">{{ (item[0] * item[1]).toFixed(decimals[store.state.selectedPair][1]) }}</span>
+                    <span class="txt-above">{{ (itemKey * items[itemKey]).toFixed(fixed_decimals[store.state.selectedPair][1]) }}</span>
                 </td>
             <!-- </div> -->
 
@@ -48,19 +48,21 @@ const props = defineProps(['bootType', 'items']);
 const store = useStore();
 
 // fixed number for every pair
-const decimals = {
+const fixed_decimals = {
     "BTCUSDT": [6, 2],
     "BNBBTC": [4, 6],
     "ETHBTC": [6, 6],
 };
 
-const depth_100 = {
+
+const depth_max_view = {
     "BTCUSDT": 10,
     "BNBBTC": 100,
     "ETHBTC": 50,
 };
+
 function getDepthViewWidth(quantity) {
-    const a = ((parseFloat(quantity) / depth_100[store.state.selectedPair]) * 100);
+    const a = ((parseFloat(quantity) / depth_max_view[store.state.selectedPair]) * 100);
     // console.log(a);
     if (a > 95) return "95%";
     return a + 3 + "%";
@@ -136,10 +138,6 @@ function getDepthViewWidth(quantity) {
     position: relative;
     width: 100%;
     overflow: scroll;
-    // tbody {
-    //         max-height: 50vh !important;
-    //         overflow-y: scroll;
-    //     }
 }
 
 .depth-item {
