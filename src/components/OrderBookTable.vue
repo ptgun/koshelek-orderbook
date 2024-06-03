@@ -5,7 +5,7 @@
     </div>
 
 
-    <v-table height="calc(90vh - 220px)" item-class="style-td" class="depth-table">
+    <v-table height="calc(90vh - 220px)" item-class="depth-item" class="depth-table">
         <thead class="bookHeader" >
 
             <tr class="d-flex justify-space-between" :class="bootType">
@@ -22,10 +22,15 @@
 
         </thead>
         <tbody class="bookBody">
-            <tr v-for="item in items" :key="item.name" class="style-td">
+            <tr v-for="item in items" :key="item.name" class="depth-item">
+                <div class="depth-view-load" :class="bootType" :style="{width: getDepthViewWidth(item[1])}"></div>
+                <!-- <div class="text-above"> -->
                 <td class="text-left">{{ parseFloat(item[0]).toFixed(decimals[store.state.selectedPair][1]) }}</td>
                 <td class="text-right" v-if="!isMobile">{{ parseFloat(item[1]).toFixed(decimals[store.state.selectedPair][0]) }}</td>
-                <td class="text-right">{{ (item[0] * item[1]).toFixed(decimals[store.state.selectedPair][1]) }}</td>
+                <td class="text-right">
+                    <span class="txt-above">{{ (item[0] * item[1]).toFixed(decimals[store.state.selectedPair][1]) }}</span>
+                </td>
+            <!-- </div> -->
 
             </tr>
         </tbody>
@@ -47,8 +52,19 @@ const decimals = {
     "BTCUSDT": [6, 2],
     "BNBBTC": [4, 6],
     "ETHBTC": [6, 6],
-
 };
+
+const depth_100 = {
+    "BTCUSDT": 10,
+    "BNBBTC": 100,
+    "ETHBTC": 50,
+};
+function getDepthViewWidth(quantity) {
+    const a = ((parseFloat(quantity) / depth_100[store.state.selectedPair]) * 100);
+    // console.log(a);
+    if (a > 95) return "95%";
+    return a + 3 + "%";
+}
 </script>
 
 
@@ -59,13 +75,13 @@ const decimals = {
         // padding-top: 10px;
         padding-bottom: 0 !important;
         margin-bottom: 0 !important;
-        border-bottom: 1px solid rgb(98, 255, 169);
+        border-bottom: 1px solid var(--bids-color);
         &.bids {
-            border-bottom: 1px solid rgb(98, 255, 169);
+            border-bottom: 1px solid var(--bids-color);
         }
 
         &.asks {
-            border-bottom: 1px solid rgb(255, 106, 69);
+            border-bottom: 1px solid var(--asks-color);
         }
 
         th {
@@ -102,14 +118,14 @@ const decimals = {
     width: 100%;
 
     &.bids {
-        color: rgb(98, 255, 169);
+        color: var(--bids-color);
         text-align: right;
         font-weight: 500;
 
     }
 
     &.asks {
-        color: rgb(255, 106, 69);
+        color: var(--asks-color);
         text-align: left;
         font-weight: 500;
     }
@@ -126,9 +142,34 @@ const decimals = {
     //     }
 }
 
-.style-td {
+.depth-item {
+    position: relative;
+    .depth-view-load {
+        position: absolute;
+        right: 0;
+        z-index: 0;
+        width: 90%;
+        height: 90%;
+        
+        opacity: 0.15;
+        &.bids {
+            background-color: var(--bids-color);
+        }
+        &.asks {
+            background-color: var(--asks-color);
+        }
+
+    }
+    background-size: 40% 50% !important;
+    background-repeat: no-repeat !important;
     height: 25px !important;
     th {
+        position: relative;
+        .txt-above {
+            position: absolute;
+            z-index: 1;
+
+        }
         height: 25px !important;
         margin: 0;
     }

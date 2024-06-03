@@ -23,6 +23,15 @@ onMounted(() => {
 
 
 <style>
+
+
+:root {
+    --bids-color: #62ffa9;
+    --asks-color: #ff6a45;
+
+}
+  
+
 .html,
 body {
   min-width: 475px;
