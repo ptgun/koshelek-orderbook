@@ -23,19 +23,15 @@ onMounted(() => {
 
 
 <style>
-
+html {
+  min-width: 480px;
+}
 
 :root {
     --bids-color: #62ffa9;
     --asks-color: #ff6a45;
-
 }
   
-
-.html,
-body {
-  min-width: 475px;
-}
 
 .screen-wrap {
   max-width: 1480px;
@@ -54,13 +50,11 @@ body {
 }
 
 .gradient-text {
-
   background: #43A4FE;
   background: -webkit-linear-gradient(to right, #43A4FE, #FF3F8B);
   background: linear-gradient(to right, #43A4FE, #FF3F8B);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
-
 }
 </style>

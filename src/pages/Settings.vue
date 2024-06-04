@@ -1,10 +1,14 @@
 <template lang="pug">
 
 .screen-wrap.page
-  v-row
+  v-row(
+    class="mb-6"
+  )
     v-col(
-      sm="12"
-      md="4"
+  class="v-col-12"
+
+    md="4"
+
     )
       v-card
         v-text-field(
@@ -21,8 +25,11 @@
               td.pair-btn.pointer(@click="selectPair(pair)") {{ pair }}
       
     v-col(
-      sm="12"
+      class="v-col-12"
+
+
       md="8"
+
     )
       v-card(
         :variant="variant"
